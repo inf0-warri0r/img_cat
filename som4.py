@@ -1,6 +1,6 @@
 """
 Author : tharindra galahena (inf0_warri0r)
-Project: image catagarizetion using SOM
+Project: image categarizetion using SOM
 Blog   : http://www.inf0warri0r.blogspot.com
 Date   : 14/05/2013
 License:
