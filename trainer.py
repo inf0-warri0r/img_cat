@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Author : tharindra galahena (inf0_warri0r)
 Project: image categorizetion using SOM
@@ -22,7 +24,7 @@ this. If not, see http://www.gnu.org/licenses/.
 
 from PySide import QtGui, QtCore
 from train import Ui_trainer_window
-import som4
+import som
 import weights
 import image
 import time
@@ -40,7 +42,7 @@ class MyWidget(QtGui.QMainWindow, Ui_trainer_window):
         self.img = image.image(self.ow, self.oh)
 
         self.timer = QtCore.QTimer()
-        self.timer.setInterval(1000)
+        self.timer.setInterval(1500)
         self.timer.timeout.connect(self.re_write)
         self.timer.start()
         self.start.clicked.connect(self.start_func)
@@ -90,7 +92,7 @@ class MyWidget(QtGui.QMainWindow, Ui_trainer_window):
         if self.num_cls_f + self.num_cls_b <= 1:
             self.text = "Error - no enough images\n"
             return 0
-        self.s = som4.som(self.ow * self.oh * 3,
+        self.s = som.som(self.ow * self.oh * 3,
                         self.num_cls_f + self.num_cls_b, 0.01)
         self.s.init()
 

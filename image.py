@@ -35,6 +35,7 @@ class image:
     def get_all_images(self, path):
         #self.img_list = list()
         for dirname, dirnames, filenames in os.walk(path):
+            filenames = sorted(filenames)
             for filename in filenames:
                 name = os.path.join(dirname, filename)
                 self.name_list.append((filename, name))

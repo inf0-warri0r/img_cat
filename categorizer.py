@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Author : tharindra galahena (inf0_warri0r)
 Project: image categarizetion using SOM
@@ -25,7 +27,7 @@ from categorize import Ui_categorizer_window
 import sys
 import weights
 from PIL import Image
-import som4
+import som
 
 
 class MyWidget(QtGui.QMainWindow, Ui_categorizer_window):
@@ -38,7 +40,7 @@ class MyWidget(QtGui.QMainWindow, Ui_categorizer_window):
             QtGui.QMessageBox.about(self, "ERROR", "error in weights file")
             exit(0)
 
-        self.s = som4.som(self.ow * self.oh * 3, self.inpm + self.inpn, 0.01)
+        self.s = som.som(self.ow * self.oh * 3, self.inpm + self.inpn, 0.01)
         self.s.init()
         self.s.put_weights(self.w, self.m)
         self.file = ""

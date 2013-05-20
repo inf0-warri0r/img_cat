@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """
 Author : tharindra galahena (inf0_warri0r)
 Project: image categorizetion using SOM
@@ -23,7 +25,7 @@ this. If not, see http://www.gnu.org/licenses/.
 from PySide import QtGui, QtCore
 from test import Ui_testing_window
 import sys
-import som4
+import som
 import weights
 import image
 import time
@@ -37,13 +39,13 @@ class MyWidget(QtGui.QMainWindow, Ui_testing_window):
         self.beach_dir = ""
         self.forest_dir = ""
         self.d = weights.data("weights")
-        self.ow, self.oh, self.inpm, self.inpn, self.w, self.m = self.d.load()
+        self.ow, self.oh, self.inpf, self.inpb, self.w, self.m = self.d.load()
         if self.ow == -1:
             QtGui.QMessageBox.about(self, "ERROR", "error in weights file")
             exit(0)
-        self.s = som4.som(self.ow * self.oh * 3, self.inpm + self.inpn, 0.01)
+        self.s = som.som(self.ow * self.oh * 3, self.inpf + self.inpb, 0.01)
         self.s.init()
-        print self.ow * self.oh * 3 * (self.inpm + self.inpn), " ", len(self.m)
+        print self.ow * self.oh * 3 * (self.inpf + self.inpb), " ", len(self.m)
         self.s.put_weights(self.w, self.m)
         self.img1 = image.image(self.ow, self.oh)
         self.img2 = image.image(self.ow, self.oh)
@@ -86,6 +88,8 @@ class MyWidget(QtGui.QMainWindow, Ui_testing_window):
         self.run = True
         self.text = ""
         self.text = "Loading Images ..."
+        self.img1 = image.image(self.ow, self.oh)
+        self.img2 = image.image(self.ow, self.oh)
         self.nb = self.img1.get_all_images(self.b_dir)
         self.nf = self.img2.get_all_images(self.f_dir)
         self.text = self.text + "   done !!!\n"
@@ -98,10 +102,11 @@ class MyWidget(QtGui.QMainWindow, Ui_testing_window):
             name = self.img1.get_name(i)
             ct = int(self.s.find(dataset))
 
-            if ct < 9:
+            if ct < self.inpf:
                 cat = "forest"
                 miss1 = miss1 + 1
             else:
+                ct = ct - self.inpf
                 cat = "beach"
 
             self.text = self.text + "image " + name[0] + " = "
@@ -119,9 +124,10 @@ class MyWidget(QtGui.QMainWindow, Ui_testing_window):
             name = self.img2.get_name(i)
             ct = int(self.s.find(dataset))
 
-            if ct < 9:
+            if ct < self.inpf:
                 cat = "forest"
             else:
+                ct = ct - self.inpf
                 cat = "beach"
                 miss2 = miss2 + 1
 
